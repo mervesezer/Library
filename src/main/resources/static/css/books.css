@@ -1,0 +1,10 @@
+.delete-button {
+  font-size: larger;
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+.delete-button:hover {
+  color: var(--danger);
+}

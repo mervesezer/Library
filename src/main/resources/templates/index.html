@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Kütüphane Uygulaması</title>
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} " />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"
+    />
+    <link th:rel="stylesheet" th:href="@{/css/home.css} " />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+      <a class="navbar-brand" href="/">Kütüphane Uygulaması</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/">Ana Sayfa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/books">Kitap İşlemleri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/authors">Yazar İşlemleri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/publishers">Yayın Evi İşlemleri</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container mt-5">
+      <h2 class="mt-5 text-center">Kitaplar</h2>
+      <hr />
+
+      <form method="GET" th:action="@{search(value=${value})}">
+        <div class="input-group w-50 ml-auto mr-auto mb-3">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Arama Yap"
+            name="value"
+            th:value="${value}"
+          />
+          <div class="input-group-append">
+            <button class="btn btn-outline-dark" type="submit">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <table class="table table-sm table-bordered table-striped table-hover">
+        <thead class="thead-dark text-center">
+          <tr>
+            <th>Id</th>
+            <th>ISBN</th>
+            <th>Name</th>
+            <th>Subname</th>
+            <th>Series Name</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody class="text-center">
+          <tr th:each="book: ${books}">
+            <td th:text="${book.id}"></td>
+            <td th:text="${book.isbnNumber}" />
+            <td th:text="${book.name}" />
+            <td th:text="${book.subname}" />
+            <td th:text="${book.seriesName}" />
+            <td th:text="${book.author.name}" />
+            <td th:text="${book.publisher.name}" />
+            <td th:text="${book.description}" />
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+  </body>
+</html>

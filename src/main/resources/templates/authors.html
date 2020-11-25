@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Kütüphane Uygulaması</title>
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} " />
+    <link th:rel="stylesheet" th:href="@{/css/books.css} " />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+      <a class="navbar-brand" href="/">Kütüphane Uygulaması</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Ana Sayfa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/books">Kitap İşlemleri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/authors">Yazar İşlemleri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/publishers">Yayın Evi İşlemleri</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container mt-3">
+      <table class="table table-sm table-bordered table-striped table-hover">
+        <thead class="thead-dark text-center">
+          <tr>
+            <th>yazar adı</th>
+            <th>Açıklama</th>
+            <th>Sil</th>
+          </tr>
+        </thead>
+        <tbody class="text-center" th:each="author: ${authors}">
+          <tr>
+            <td th:text="${author.name}" />
+            <td th:text="${author.description}" />
+            <td class="text-center">
+              <form
+                th:action="@{'/authors/delete/{id}'(id=${author.id})}"
+                method="POST"
+              >
+                <button type="submit" class="delete-button">
+                  <i class="fas fa-minus-circle"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="text-center text-danger">
+        *Sildiğiniz yazara ait tüm kitaplar silinecektir.
+      </p>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <div class="card shadow">
+            <div class="card-body">
+              <form th:object="${author}" th:action="@{/authors}" method="POST">
+                <div class="form-group">
+                  <label>Yazar Adı</label>
+                  <input
+                    th:field="*{name}"
+                    type="text"
+                    class="form-control"
+                    placeholder="Yazar Adı"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="text-center">Açıklama</label>
+                  <textarea
+                    th:field="*{description}"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Açıklama"
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Ekle</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="card">
+            <div class="card-body shadow">
+              <form th:object="${author}" th:action="@{/authors}" method="POST">
+                <div class="form-group">
+                  <div class="form-group">
+                    <label>Yazar Seçiniz</label>
+                    <select
+                      id="bookSelect"
+                      class="form-control"
+                      th:field="*{id}"
+                      required
+                    >
+                      <option
+                        th:each="author:${authors}"
+                        th:value="${author.id}"
+                        th:text="${author.name}"
+                      ></option>
+                    </select>
+                  </div>
+
+                  <label>Yazar Adı</label>
+                  <input
+                    th:field="*{name}"
+                    type="text"
+                    class="form-control"
+                    placeholder="Yazar Adı"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="text-center">Açıklama</label>
+                  <textarea
+                    th:field="*{description}"
+                    class="form-control"
+                    rows="3"
+                    placeholder="Açıklama"
+                    required
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark w-100">
+                  Güncelle
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+  </body>
+</html>

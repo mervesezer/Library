@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Kütüphane Uygulaması</title>
+    <link th:rel="stylesheet" th:href="@{/bootstrap/css/bootstrap.min.css} " />
+    <link th:rel="stylesheet" th:href="@{/css/books.css} " />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+      integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+      crossorigin="anonymous"
+    />
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+      <a class="navbar-brand" href="/">Kütüphane Uygulaması</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Ana Sayfa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/books">Kitap İşlemleri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/authors">Yazar İşlemleri</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="/publishers"
+              >Yayın Evi İşlemleri</a
+            >
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container mt-3">
+      <table class="table table-sm table-bordered table-striped table-hover">
+        <thead class="thead-dark text-center">
+          <tr>
+            <th>Yayınevi adı</th>
+            <th>Açıklama</th>
+            <th>Sil</th>
+          </tr>
+        </thead>
+        <tbody th:each="publisher: ${publishers}">
+          <tr>
+            <td th:text="${publisher.name}" />
+            <td th:text="${publisher.description}" />
+            <td class="text-center">
+              <form
+                th:action="@{'/publishers/delete/{id}'(id=${publisher.id})}"
+                method="POST"
+              >
+                <button type="submit" class="delete-button">
+                  <i class="fas fa-minus-circle"></i>
+                </button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="text-center text-danger">
+        *Sildiğiniz yayın evine ait tüm kitaplar silinecektir.
+      </p>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <div class="card shadow">
+            <div class="card-body">
+              <form
+                th:object="${publisher}"
+                method="POST"
+                th:action="@{/publishers}"
+              >
+                <div class="form-group">
+                  <label>Yayınevi Adı</label>
+                  <input
+                    th:field="*{name}"
+                    type="text"
+                    class="form-control" required
+                    placeholder="Yayınevi Adı"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="text-center">Açıklama</label>
+                  <textarea
+                    class="form-control" required
+                    rows="3"
+                    th:field="*{description}"
+                    placeholder="Açıklama"
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark w-100">Ekle</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm">
+          <div class="card shadow">
+            <div class="card-body">
+              <form
+                th:object="${publisher}"
+                method="POST"
+                th:action="@{/publishers}"
+              >
+                <div class="form-group">
+                  <label>Yayınevi Seçiniz</label>
+                  <select class="form-control" th:field="*{id}" required>
+                    <option
+                      th:each="publisher:${publishers}"
+                      th:value="${publisher.id}"
+                      th:text="${publisher.name}"
+                    ></option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Yayınevi Adı</label>
+                  <input
+                    th:field="*{name}"
+                    type="text"
+                    class="form-control" required
+                    placeholder="Yayınevi Adı"
+                  />
+                </div>
+                <div class="form-group">
+                  <label class="text-center">Açıklama</label>
+                  <textarea
+                    class="form-control" required
+                    rows="3"
+                    th:field="*{description}"
+                    placeholder="Açıklama"
+                  ></textarea>
+                </div>
+                <button type="submit" class="btn btn-dark w-100">
+                  Güncelle
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+  </body>
+</html>
